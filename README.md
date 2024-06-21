@@ -1,6 +1,9 @@
 # Setup
 
+dotenv
 bulma
+bcryptjs
+uuid
 
 - create database
 

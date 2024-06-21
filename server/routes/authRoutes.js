@@ -6,7 +6,6 @@ const { client } = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const { jwtSecret } = require("../config");
 const { authenticateToken } = require("../middleware/authMiddleware");
-const config = require("../config");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -63,8 +62,8 @@ router.post("/login", async (req, res, next) => {
     const result = await client.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
-
     const user = result.rows[0];
+
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
