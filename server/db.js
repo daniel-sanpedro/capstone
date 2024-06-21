@@ -1,11 +1,11 @@
 const { Client } = require("pg");
 
 const client = new Client({
-  user: "daniel",
-  host: "localhost",
-  database: "ecommerce",
-  password: "d_pw",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 const createTables = async () => {

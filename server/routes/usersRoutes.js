@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { client } = require("./db");
+const { client } = require("../db");
 const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async () => {
   try {
@@ -29,11 +30,12 @@ const getUserById = async (user_id) => {
 const addUser = async (
   username,
   email,
-  password_hash,
+  password,
   full_name,
   address,
   phone_number
 ) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user_id = uuidv4();
   try {
     const result = await client.query(
@@ -42,7 +44,7 @@ const addUser = async (
         user_id,
         username,
         email,
-        password_hash,
+        hashedPassword,
         full_name,
         address,
         phone_number,
@@ -111,13 +113,13 @@ router.get("/:user_id", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const { username, email, password_hash, full_name, address, phone_number } =
+  const { username, email, password, full_name, address, phone_number } =
     req.body;
   try {
     const newUser = await addUser(
       username,
       email,
-      password_hash,
+      password,
       full_name,
       address,
       phone_number
@@ -161,5 +163,67 @@ router.delete("/:user_id", async (req, res, next) => {
     next(error);
   }
 });
+
+const loginUser = async (username, password) => {
+  try {
+    const result = await client.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
+    const user = result.rows[0];
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    if (!passwordMatch) {
+      throw new Error("Incorrect password");
+    }
+
+    return user;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
+  }
+};
+
+const signupUser = async (
+  username,
+  email,
+  password,
+  full_name,
+  address,
+  phone_number
+) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user_id = uuidv4();
+  try {
+    const result = await client.query(
+      "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [
+        user_id,
+        username,
+        email,
+        hashedPassword,
+        full_name,
+        address,
+        phone_number,
+      ]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error signing up user:", error);
+    throw error;
+  }
+};
+
+const logoutUser = async () => {
+  try {
+    return { message: "Logged out successfully" };
+  } catch (error) {
+    console.error("Error logging out:", error);
+    throw error;
+  }
+};
 
 module.exports = router;
