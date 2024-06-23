@@ -12,8 +12,8 @@ const createTables = async () => {
   const SQL = `
     DROP TABLE IF EXISTS shipping_info, product_reviews, payments, order_items, orders, products, categories, users;
 
-    CREATE TABLE users (
-      user_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS users (
+      user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       username VARCHAR(50) NOT NULL UNIQUE,
       email VARCHAR(100) NOT NULL UNIQUE,
       password_hash VARCHAR(255) NOT NULL,
@@ -24,15 +24,15 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE categories (
-      category_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS categories (
+      category_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(100) NOT NULL UNIQUE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE products (
-      product_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS products (
+      product_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(255) NOT NULL,
       description TEXT,
       price DECIMAL(10, 2) NOT NULL,
@@ -41,8 +41,8 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE orders (
-      order_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS orders (
+      order_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       user_id UUID REFERENCES users(user_id),
       order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       total_amount DECIMAL(10, 2) NOT NULL,
@@ -51,8 +51,8 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE order_items (
-      order_item_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS order_items (
+      order_item_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       order_id UUID REFERENCES orders(order_id),
       product_id UUID REFERENCES products(product_id),
       quantity INT NOT NULL,
@@ -61,8 +61,8 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE payments (
-      payment_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS payments (
+      payment_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       order_id UUID REFERENCES orders(order_id),
       amount DECIMAL(10, 2) NOT NULL,
       payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -73,8 +73,8 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE product_reviews (
-      review_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS product_reviews (
+      review_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       product_id UUID REFERENCES products(product_id),
       user_id UUID REFERENCES users(user_id),
       rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
@@ -84,8 +84,8 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE shipping_info (
-      shipping_id UUID PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS shipping_info (
+      shipping_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       order_id UUID REFERENCES orders(order_id),
       shipping_address TEXT,
       shipping_method VARCHAR(100),
@@ -94,6 +94,9 @@ const createTables = async () => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    -- Extensions and UUID generation
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   `;
 
   try {
@@ -104,8 +107,6 @@ const createTables = async () => {
     console.error("Error creating tables", err);
     throw err;
   } finally {
-    await client.end();
-    console.log("Disconnected from PostgreSQL database");
   }
 };
 

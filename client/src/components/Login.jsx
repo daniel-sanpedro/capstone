@@ -4,9 +4,11 @@ const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
@@ -30,6 +32,9 @@ const Login = ({ history }) => {
     } catch (error) {
       console.error("Login error:", error);
       setError(error.message);
+      setPassword(""); // Clear password field on error
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,7 +56,9 @@ const Login = ({ history }) => {
           placeholder="Password"
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
       {error && <p className="error-message">{error}</p>}
     </div>

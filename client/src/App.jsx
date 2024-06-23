@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom"; // Removed BrowserRouter from here
+import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";
+import Signup from "./components/Signup";
 import "./App.css";
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           element={<ProductList products={products} addToCart={addToCart} />}
         />
         <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
   );

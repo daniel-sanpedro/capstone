@@ -11,7 +11,6 @@ const ordersRouter = require("./routes/orderRoutes");
 const paymentsRouter = require("./routes/paymentRoutes");
 const shippingInfoRouter = require("./routes/shippingRoutes");
 const authRouter = require("./routes/authRoutes");
-
 const { port } = require("./config");
 
 const app = express();
