@@ -3,12 +3,17 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const { loginUser, signupUser, logoutUser } = require("./authService");
 const { findUserByUsername } = require("./users");
+const jwt = require("jsonwebtoken");
+const { jwtSecret } = require("./config");
 
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
   try {
     const user = await loginUser(username, password);
-    res.json(user);
+    const token = jwt.sign({ id: user.user_id }, jwtSecret, {
+      expiresIn: "1h",
+    });
+    res.json({ token, user });
   } catch (error) {
     next(error);
   }

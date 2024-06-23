@@ -107,21 +107,11 @@ const createTables = async () => {
     console.error("Error creating tables", err);
     throw err;
   } finally {
-  }
-};
-
-const connect = async () => {
-  try {
-    await client.connect();
-    console.log("Connected to PostgreSQL database");
-  } catch (err) {
-    console.error("Error connecting to PostgreSQL database", err);
-    throw err;
+    await client.end();
   }
 };
 
 module.exports = {
   client,
-  connect,
   createTables,
 };

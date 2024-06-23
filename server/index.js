@@ -26,7 +26,6 @@ const cart = [];
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
