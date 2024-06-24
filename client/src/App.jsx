@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
@@ -11,6 +11,7 @@ import "./App.css";
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
@@ -19,7 +20,7 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get("/api/products");
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -28,7 +29,7 @@ function App() {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/cart");
+      const response = await axios.get("/api/cart");
       setCart(response.data);
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -37,7 +38,7 @@ function App() {
 
   const addToCart = async (productId) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/cart/add", {
+      const response = await axios.post("/api/cart/add", {
         productId,
       });
       setCart(response.data);
@@ -46,16 +47,49 @@ function App() {
     }
   };
 
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post("/api/checkout", { cartItems: cart });
+      console.log("Checkout successful", response.data);
+      setCart([]); // Clear the cart
+      navigate("/"); // Redirect to the front page
+    } catch (error) {
+      console.error("Checkout failed", error);
+    }
+  };
+
   return (
     <div className="App">
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/">Home</Link>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/cart">Cart</Link>
+        </div>
+        <div className="navbar-right">
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Signup</Link>
+        </div>
+      </nav>
+
       <Routes>
-        <Route exact path="/" element={<Login />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <ProductList
+              products={products}
+              setProducts={setProducts}
+              addToCart={addToCart}
+            />
+          }
+        />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
-          path="/products"
-          element={<ProductList products={products} addToCart={addToCart} />}
+          path="/cart"
+          element={<Cart cart={cart} handleCheckout={handleCheckout} />}
         />
-        <Route path="/cart" element={<Cart cart={cart} />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>

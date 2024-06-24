@@ -54,15 +54,29 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+> div {
+  flex: 1 1 20rem;
+  padding: 2rem;
+  background: #c6c6c6;
+  border-radius: 2rem;
+
+  &:first-child {
+    flex-basis: 100%;
+    z-index: 1000;
   }
-  a:hover {
-    color: #747bff;
+
+  *:last-child {
+    margin-bottom: 0;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@media only screen and (max-device-width: 320px) {
+  .banner {
+    /* banner will only show on desktop mode */
+    display: none;
+    max-width: 1050px;
+    width: 100%;
+    padding-bottom: 30px;
+    z-index: 1000;
   }
 }

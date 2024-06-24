@@ -1,3 +1,12 @@
+/* Global styles */
+body {
+  background: #555555;
+  color: #212121;
+  font-family: "Minecraft", sans-serif;
+  margin: 0;
+  margin-top: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -11,9 +20,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -33,10 +44,85 @@
   }
 }
 
-.card {
-  padding: 2em;
+/* Styles from style.css */
+
+.navbar {
+  overflow: hidden;
+  background-color: #373737;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
-.read-the-docs {
-  color: #888;
+.navbar a {
+  float: left;
+  display: block;
+  color: hsl(352 77% 60%);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background: #ddd;
+  color: #8b8b8b;
+}
+
+.navbar a.split {
+  float: right;
+  color: hsl(352 77% 60%);
+}
+
+.navbar a.split:hover {
+  background: #ddd;
+  color: #8b8b8b;
+}
+
+.main {
+  padding: 16px;
+  margin-bottom: 30px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: hsl(352 77% 60%);
+}
+
+.grid {
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+
+.grid > div {
+  flex: 1 1 20rem;
+  padding: 2rem;
+  background: #c6c6c6;
+  border-radius: 2rem;
+}
+
+.grid > div:first-child {
+  flex-basis: 100%;
+  z-index: 1000;
+}
+
+.grid > div *:last-child {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-device-width: 320px) {
+  .banner {
+    display: none;
+    max-width: 1050px;
+    width: 100%;
+    padding-bottom: 30px;
+    z-index: 1000;
+  }
 }
