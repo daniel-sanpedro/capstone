@@ -19,178 +19,203 @@ const PORT = process.env.PORT || 3000;
 const products = [
   {
     id: 1,
-    name: "Lagavulin 16 Year Old",
-    price: 89.99,
-    imageUrl:
-      "https://cdn.shopify.com/s/files/1/1862/8545/products/lagavulin-16-scotch-whiskey-750ml_5000x.jpg?v=1613085574",
-  },
-  {
-    id: 2,
-    name: "Macallan 18 Year Old Sherry Oak",
-    price: 259.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-16972/macallan-18-year-old-sherry-oak-whisky.jpg?ss=2.0",
-  },
-  {
-    id: 3,
-    name: "Hibiki Japanese Harmony",
-    price: 89.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-37355/hibiki-japanese-harmony.jpg?ss=2.0",
-  },
-  {
-    id: 4,
-    name: "Balvenie DoubleWood 12 Year Old",
-    price: 64.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-37313/balvenie-doublewood-12-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 5,
-    name: "Jameson Irish Whiskey",
-    price: 29.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1705/jameson.jpg?ss=2.0",
-  },
-  {
-    id: 6,
-    name: "Yamazaki 12 Year Old",
-    price: 199.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-4680/yamazaki-12-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 7,
-    name: "Ardbeg 10 Year Old",
-    price: 49.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-2997/ardbeg-10-year-old-whisky.jpg?ss=2.0",
-  },
-  {
-    id: 8,
-    name: "Glenfiddich 18 Year Old",
-    price: 109.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-214/glenfiddich-18-year-old-single-malt-whisky.jpg?ss=2.0",
-  },
-  {
-    id: 9,
-    name: "Highland Park 12 Year Old Viking Honour",
-    price: 54.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1609/highland-park-12-year-old-viking-honour.jpg?ss=2.0",
-  },
-  {
-    id: 10,
-    name: "Redbreast 12 Year Old",
-    price: 69.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-4528/redbreast-12-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 11,
-    name: "Glenlivet 18 Year Old",
-    price: 119.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-203/glenlivet-18-year-old-single-malt-whisky.jpg?ss=2.0",
-  },
-  {
-    id: 12,
-    name: "Nikka From The Barrel",
-    price: 74.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-37516/nikka-from-the-barrel.jpg?ss=2.0",
-  },
-  {
-    id: 13,
     name: "Bulleit Bourbon",
     price: 29.99,
+    quantity: 15,
     imageUrl:
       "https://cdn2.masterofmalt.com/whiskies/p-39254/bulleit-bourbon.jpg?ss=2.0",
   },
   {
-    id: 14,
-    name: "Oban 14 Year Old",
-    price: 74.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1511/oban-14-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 15,
+    id: 2,
     name: "Blanton's Original Single Barrel Bourbon",
     price: 69.99,
+    quantity: 6,
     imageUrl:
       "https://cdn2.masterofmalt.com/whiskies/p-45189/blantons-original-single-barrel-bourbon-whiskey.jpg?ss=2.0",
   },
   {
-    id: 16,
-    name: "Talisker 10 Year Old",
-    price: 59.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-2192/talisker-10-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 17,
-    name: "Woodford Reserve Bourbon",
-    price: 34.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1539/woodford-reserve-distillers-select.jpg?ss=2.0",
-  },
-  {
-    id: 18,
-    name: "Glenmorangie 10 Year Old Original",
-    price: 34.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-153/glenmorangie-original-10-year-old.jpg?ss=2.0",
-  },
-  {
-    id: 19,
+    id: 3,
     name: "Buffalo Trace Bourbon",
     price: 29.99,
+    quantity: 14,
     imageUrl:
       "https://cdn2.masterofmalt.com/whiskies/p-1730/buffalo-trace.jpg?ss=2.0",
   },
   {
-    id: 20,
-    name: "GlenDronach 12 Year Old",
-    price: 59.99,
+    id: 4,
+    name: "Woodford Reserve Bourbon",
+    price: 34.99,
+    quantity: 12,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-37438/glendronach-12-year-old.jpg?ss=2.0",
+      "https://cdn2.masterofmalt.com/whiskies/p-1539/woodford-reserve-distillers-select.jpg?ss=2.0",
   },
   {
-    id: 21,
-    name: "Jack Daniel's Old No. 7",
-    price: 27.99,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1521/jack-daniels-old-no7-tennessee-whiskey.jpg?ss=2.0",
-  },
-  {
-    id: 22,
+    id: 5,
     name: "Eagle Rare 10 Year Old",
     price: 49.99,
+    quantity: 10,
     imageUrl:
       "https://cdn2.masterofmalt.com/whiskies/p-15223/eagle-rare-10-year-old-bourbon.jpg?ss=2.0",
   },
   {
-    id: 23,
-    name: "Old Pulteney 12 Year Old",
+    id: 6,
+    name: "Elijah Craig Small Batch Bourbon",
     price: 39.99,
+    quantity: 8,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-4907/old-pulteney-12-year-old.jpg?ss=2.0",
+      "https://cdn2.masterofmalt.com/whiskies/p-160/elijah-craig-small-batch-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 7,
+    name: "Four Roses Single Barrel Bourbon",
+    price: 49.99,
+    quantity: 7,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-1749/four-roses-single-barrel-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 8,
+    name: "Maker's Mark Bourbon",
+    price: 24.99,
+    quantity: 20,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-3932/makers-mark-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 9,
+    name: "Knob Creek 9 Year Old Bourbon",
+    price: 39.99,
+    quantity: 12,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-3928/knob-creek-9-year-old-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 10,
+    name: "Wild Turkey 101 Bourbon",
+    price: 22.99,
+    quantity: 18,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-3929/wild-turkey-101-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 11,
+    name: "Old Forester 1920 Prohibition Style Bourbon",
+    price: 59.99,
+    quantity: 8,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-43002/old-forester-1920-prohibition-style-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 12,
+    name: "1792 Small Batch Bourbon",
+    price: 29.99,
+    quantity: 10,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-3942/1792-small-batch-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 13,
+    name: "Henry McKenna 10 Year Old Single Barrel Bourbon",
+    price: 49.99,
+    quantity: 5,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-40449/henry-mckenna-10-year-old-single-barrel-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 14,
+    name: "Basil Hayden's Bourbon",
+    price: 39.99,
+    quantity: 9,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-1789/basil-haydens-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 15,
+    name: "Angel's Envy Bourbon",
+    price: 49.99,
+    quantity: 8,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-3921/angels-envy-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 16,
+    name: "Booker's Bourbon",
+    price: 89.99,
+    quantity: 4,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-4035/bookers-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 17,
+    name: "George T. Stagg Bourbon",
+    price: 249.99,
+    quantity: 3,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-40451/george-t-stagg-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 18,
+    name: "Pappy Van Winkle's Family Reserve 15 Year Old",
+    price: 999.99,
+    quantity: 1,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-15224/pappy-van-winkles-family-reserve-15-year-old.jpg?ss=2.0",
+  },
+  {
+    id: 19,
+    name: "Jefferson's Ocean Aged at Sea Bourbon",
+    price: 79.99,
+    quantity: 7,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-40310/jeffersons-ocean-aged-at-sea-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 20,
+    name: "W.L. Weller Special Reserve Bourbon",
+    price: 29.99,
+    quantity: 10,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-40439/w-l-weller-special-reserve-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 21,
+    name: "Evan Williams Black Label Bourbon",
+    price: 17.99,
+    quantity: 15,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-1743/evan-williams-black-label-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 22,
+    name: "Old Grand-Dad 114 Bourbon",
+    price: 29.99,
+    quantity: 8,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-40400/old-grand-dad-114-bourbon.jpg?ss=2.0",
+  },
+  {
+    id: 23,
+    name: "Rebel Yell 10 Year Old Single Barrel Bourbon",
+    price: 59.99,
+    quantity: 5,
+    imageUrl:
+      "https://cdn2.masterofmalt.com/whiskies/p-39299/rebel-yell-10-year-old-single-barrel-bourbon.jpg?ss=2.0",
   },
   {
     id: 24,
-    name: "Aberlour 12 Year Old Double Cask Matured",
-    price: 44.99,
+    name: "Wild Turkey Rare Breed Bourbon",
+    price: 49.99,
+    quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1882/aberlour-12-year-old-double-cask.jpg?ss=2.0",
+      "https://cdn2.masterofmalt.com/whiskies/p-3926/wild-turkey-rare-breed-bourbon.jpg?ss=2.0",
   },
   {
     id: 25,
-    name: "Glenfarclas 105 Cask Strength",
-    price: 69.99,
+    name: "Russell's Reserve 10 Year Old Bourbon",
+    price: 39.99,
+    quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1702/glenfarclas-105-cask-strength.jpg?ss=2.0",
+      "https://cdn2.masterofmalt.com/whiskies/p-1747/russells-reserve-10-year-old-bourbon.jpg?ss=2.0",
   },
 ];
 
