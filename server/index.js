@@ -23,7 +23,7 @@ const products = [
     price: 29.99,
     quantity: 15,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-39254/bulleit-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/bulleit/bulleit-bourbon-whiskey.jpg?alt=1&w=511&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 2,
