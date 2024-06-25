@@ -1,4 +1,6 @@
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 module.exports = {
   db: {

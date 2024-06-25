@@ -1,6 +1,8 @@
 const { Client } = require("pg");
 const { Pool } = require("pg");
 
+const jwtSecret = process.env.JWT_SECRET;
+
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -44,4 +46,5 @@ module.exports = {
   disconnectDB,
   client,
   pool,
+  jwtSecret,
 };

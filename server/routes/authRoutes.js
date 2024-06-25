@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { client } = require("../db");
-const { v4: uuidv4 } = require("uuid");
 const { jwtSecret } = require("../config");
 const { authenticateToken } = require("../middleware/authMiddleware");
 
@@ -21,20 +20,20 @@ router.post("/signup", async (req, res, next) => {
 
   try {
     const userCheck = await client.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
+      "SELECT * FROM users WHERE username = $1",
+      [username]
     );
     if (userCheck.rows.length > 0) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Username already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user_id = uuidv4();
+    const userId = uuidv4();
 
     const result = await client.query(
       "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
       [
-        user_id,
+        userId,
         username,
         email,
         hashedPassword,
@@ -44,11 +43,11 @@ router.post("/signup", async (req, res, next) => {
       ]
     );
 
-    const user = result.rows[0];
+    const newUser = result.rows[0];
 
-    const token = generateToken(user);
+    const token = generateToken(newUser);
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ user: newUser, token });
   } catch (error) {
     console.error("Error signing up user:", error);
     next(error);

@@ -31,7 +31,7 @@ const products = [
     price: 69.99,
     quantity: 6,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-45189/blantons-original-single-barrel-bourbon-whiskey.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/blantons/blantons-original-single-barrel-whiskey.jpg?alt=1&w=617&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const products = [
     price: 29.99,
     quantity: 14,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1730/buffalo-trace.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/buffalo-trace/buffalo-trace-whiskey.jpg?alt=1&w=496&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const products = [
     price: 34.99,
     quantity: 12,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1539/woodford-reserve-distillers-select.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/woodford-reserve/woodford-reserve-kentucky-bourbon-whiskey.jpg?alt=1&w=639&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 5,
@@ -55,7 +55,7 @@ const products = [
     price: 49.99,
     quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-15223/eagle-rare-10-year-old-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/eagle-rare/eagle-rare-10-year-old-whisky.jpg?alt=1&w=385&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 6,
@@ -63,7 +63,7 @@ const products = [
     price: 39.99,
     quantity: 8,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-160/elijah-craig-small-batch-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/elijah-craig/elijah-craig-small-batch-bourbon-whisky.jpg?alt=1&w=528&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 7,
@@ -71,7 +71,7 @@ const products = [
     price: 49.99,
     quantity: 7,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1749/four-roses-single-barrel-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/four-roses-single-barrel-bourbon-100-proof-whiskey.jpg?alt=1&w=488&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 8,
@@ -79,7 +79,7 @@ const products = [
     price: 24.99,
     quantity: 20,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3932/makers-mark-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/makers-mark-whiskey.jpg?alt=1&w=526&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 9,
@@ -87,7 +87,7 @@ const products = [
     price: 39.99,
     quantity: 12,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3928/knob-creek-9-year-old-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/knob-creek/knob-creek-knob-creek-kentucky-straight-bourbon-whiskey.jpg?alt=1&w=593&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 10,
@@ -95,7 +95,7 @@ const products = [
     price: 22.99,
     quantity: 18,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3929/wild-turkey-101-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/wild-turkey/wild-turkey-81-proof-whiskey.jpg?alt=1&w=421&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 11,
@@ -103,7 +103,7 @@ const products = [
     price: 59.99,
     quantity: 8,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-43002/old-forester-1920-prohibition-style-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/old-forester/old-forester-1920-prohibition-style-whiskey.jpg?alt=1&w=461&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 12,
@@ -111,7 +111,7 @@ const products = [
     price: 29.99,
     quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3942/1792-small-batch-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/barton-1792/1792-small-batch-whiskey.jpg?alt=1&w=640&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 13,
@@ -119,7 +119,7 @@ const products = [
     price: 49.99,
     quantity: 5,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-40449/henry-mckenna-10-year-old-single-barrel-bourbon.jpg?ss=2.0",
+      "https://www.missionliquor.com/cdn/shop/files/Henry-McKenna-Single-Barrel.jpg?v=1691780984&width=1024",
   },
   {
     id: 14,
@@ -127,7 +127,7 @@ const products = [
     price: 39.99,
     quantity: 9,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1789/basil-haydens-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/basil-haydens/basil-haydens-bourbon-whiskey.jpg?alt=1&w=430&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 15,
@@ -135,7 +135,7 @@ const products = [
     price: 49.99,
     quantity: 8,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3921/angels-envy-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/angels-envy/angels-envy-whiskey.jpg?alt=1&w=542&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 16,
@@ -143,7 +143,7 @@ const products = [
     price: 89.99,
     quantity: 4,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-4035/bookers-bourbon.jpg?ss=2.0",
+      "https://www.thebarreltap.com/cdn/shop/files/booker-s-bourbon-batch-2018-04-kitchen-table-the-barrel-tap-www-thebarreltap-com-1_ef85b815-6da6-4576-8a96-0a06176cb437.jpg?v=1691179941&width=1800",
   },
   {
     id: 17,
@@ -151,7 +151,7 @@ const products = [
     price: 249.99,
     quantity: 3,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-40451/george-t-stagg-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/george-t-stagg-bourbon/george-t-stagg-bourbon-2015-release.jpg?alt=1&w=359&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 18,
@@ -159,7 +159,7 @@ const products = [
     price: 999.99,
     quantity: 1,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-15224/pappy-van-winkles-family-reserve-15-year-old.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/pappy-van-winkles-family-reserve-bourbon-15-year-old-whiskey.jpg?alt=1&w=378&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 19,
@@ -167,7 +167,7 @@ const products = [
     price: 79.99,
     quantity: 7,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-40310/jeffersons-ocean-aged-at-sea-bourbon.jpg?ss=2.0",
+      "https://d3omj40jjfp5tk.cloudfront.net/products/5e8cf76f32b79e35eb9da853/large.png",
   },
   {
     id: 20,
@@ -175,7 +175,7 @@ const products = [
     price: 29.99,
     quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-40439/w-l-weller-special-reserve-bourbon.jpg?ss=2.0",
+      "https://cdn11.bigcommerce.com/s-u9ww3di/images/stencil/1280x1280/products/8003/11442/weller_special_reserve_wheated_bourbon___97474.1535263434.png?c=2?imbypass=on",
   },
   {
     id: 21,
@@ -183,7 +183,7 @@ const products = [
     price: 17.99,
     quantity: 15,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1743/evan-williams-black-label-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/evan-williams/evan-williams-white-label.jpg?alt=1&w=450&h=1024&b=0xFFFFFF&q=100",
   },
   {
     id: 22,
@@ -191,7 +191,7 @@ const products = [
     price: 29.99,
     quantity: 8,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-40400/old-grand-dad-114-bourbon.jpg?ss=2.0",
+      "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/hc1/h47/12343407214622.png",
   },
   {
     id: 23,
@@ -199,7 +199,7 @@ const products = [
     price: 59.99,
     quantity: 5,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-39299/rebel-yell-10-year-old-single-barrel-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/rebell-yell/rebel-yell-10-year-old-single-barrel-whiskey.jpg?alt=1&w=700&h=1013&b=0xFFFFFF&q=100",
   },
   {
     id: 24,
@@ -207,15 +207,7 @@ const products = [
     price: 49.99,
     quantity: 10,
     imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-3926/wild-turkey-rare-breed-bourbon.jpg?ss=2.0",
-  },
-  {
-    id: 25,
-    name: "Russell's Reserve 10 Year Old Bourbon",
-    price: 39.99,
-    quantity: 10,
-    imageUrl:
-      "https://cdn2.masterofmalt.com/whiskies/p-1747/russells-reserve-10-year-old-bourbon.jpg?ss=2.0",
+      "https://www.masterofmalt.com/whiskies/wild-turkey/wild-turkey-rare-breed-bourbon-58-4-percent-whiskey.jpg?alt=1&w=700&h=926&b=0xFFFFFF&q=100",
   },
 ];
 
