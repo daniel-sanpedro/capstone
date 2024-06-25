@@ -230,6 +230,16 @@ app.get("/api/products", (req, res) => {
   res.json(products);
 });
 
+app.get("/api/products/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const product = products.find((p) => p.id === productId);
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404).json({ message: "Product not found" });
+  }
+});
+
 app.get("/api/cart", (req, res) => {
   res.json(cart);
 });

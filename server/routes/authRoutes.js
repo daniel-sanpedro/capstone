@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { client } = require("../db");
 const { jwtSecret } = require("../config");
 const { authenticateToken } = require("../middleware/authMiddleware");
+const { v4: uuidv4 } = require("uuid");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -13,7 +14,7 @@ const generateToken = (user) => {
     { expiresIn: "1h" }
   );
 };
-
+console.log(jwtSecret, process.env.JWT_SECRET);
 router.post("/signup", async (req, res, next) => {
   const { username, email, password, full_name, address, phone_number } =
     req.body;

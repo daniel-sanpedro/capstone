@@ -3,6 +3,10 @@ const router = express.Router();
 const { client } = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const secretKey = "BC5V3DyZ9eWoAQ4jZAucpMbaCM5neMHW";
+const tokenExpiration = "1h";
 
 const getAllUsers = async () => {
   try {
@@ -90,80 +94,6 @@ const deleteUser = async (user_id) => {
   }
 };
 
-router.get("/", async (req, res, next) => {
-  try {
-    const users = await getAllUsers();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/:user_id", async (req, res, next) => {
-  const { user_id } = req.params;
-  try {
-    const user = await getUserById(user_id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.post("/", async (req, res, next) => {
-  const { username, email, password, full_name, address, phone_number } =
-    req.body;
-  try {
-    const newUser = await addUser(
-      username,
-      email,
-      password,
-      full_name,
-      address,
-      phone_number
-    );
-    res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put("/:user_id", async (req, res, next) => {
-  const { user_id } = req.params;
-  const { username, email, full_name, address, phone_number } = req.body;
-  try {
-    const updatedUser = await updateUser(
-      user_id,
-      username,
-      email,
-      full_name,
-      address,
-      phone_number
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(updatedUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.delete("/:user_id", async (req, res, next) => {
-  const { user_id } = req.params;
-  try {
-    const deletedUser = await deleteUser(user_id);
-    if (!deletedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(deletedUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
 const loginUser = async (username, password) => {
   try {
     const result = await client.query(
@@ -180,7 +110,13 @@ const loginUser = async (username, password) => {
       throw new Error("Incorrect password");
     }
 
-    return user;
+    const token = jwt.sign(
+      { userId: user.user_id, username: user.username },
+      secretKey,
+      { expiresIn: tokenExpiration }
+    );
+
+    return { user, token };
   } catch (error) {
     console.error("Error logging in:", error);
     throw error;
@@ -225,5 +161,98 @@ const logoutUser = async () => {
     throw error;
   }
 };
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("Token verification error:", err);
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = decoded;
+    next();
+  });
+};
+
+router.get("/", verifyToken, async (req, res, next) => {
+  try {
+    const users = await getAllUsers();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:user_id", verifyToken, async (req, res, next) => {
+  const { user_id } = req.params;
+  try {
+    const user = await getUserById(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/", async (req, res, next) => {
+  const { username, email, password, full_name, address, phone_number } =
+    req.body;
+  try {
+    const newUser = await addUser(
+      username,
+      email,
+      password,
+      full_name,
+      address,
+      phone_number
+    );
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:user_id", verifyToken, async (req, res, next) => {
+  const { user_id } = req.params;
+  const { username, email, full_name, address, phone_number } = req.body;
+  try {
+    const updatedUser = await updateUser(
+      user_id,
+      username,
+      email,
+      full_name,
+      address,
+      phone_number
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:user_id", verifyToken, async (req, res, next) => {
+  const { user_id } = req.params;
+  try {
+    const deletedUser = await deleteUser(user_id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(deletedUser);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
