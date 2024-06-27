@@ -1,12 +1,9 @@
-// index.js
-
 const express = require("express");
 const router = express.Router();
 const { client } = require("../db");
 const { authenticateToken } = require("../middleware/authMiddleware");
 const { v4: uuidv4 } = require("uuid");
 
-// Cart Routes
 const getCartItems = async (user_id) => {
   const res = await client.query(
     "SELECT * FROM cart_items WHERE user_id = $1",
@@ -91,7 +88,6 @@ router.delete(
   }
 );
 
-// Order Routes
 const getAllOrders = async () => {
   try {
     const result = await client.query("SELECT * FROM orders");
@@ -240,7 +236,6 @@ router.delete("/orders/:order_id", async (req, res, next) => {
   }
 });
 
-// Payment Routes
 const getAllPayments = async () => {
   try {
     const result = await client.query("SELECT * FROM payments");
@@ -392,7 +387,6 @@ router.delete("/payments/:payment_id", async (req, res, next) => {
   }
 });
 
-// Shipping Routes
 const getAllShippingInfo = async () => {
   try {
     const result = await client.query("SELECT * FROM shipping_info");

@@ -11,7 +11,6 @@ const {
 } = require("../middleware/authMiddleware");
 const { signupUser, updateUserToAdmin } = require("../utils/userUtils");
 
-// Generate JWT Token
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -24,7 +23,6 @@ const generateToken = (user) => {
   );
 };
 
-// Signup User
 router.post("/signup", async (req, res, next) => {
   const {
     username,
@@ -67,7 +65,6 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-// Login User
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -94,7 +91,6 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// Logout User
 router.post("/logout", authenticateToken, async (req, res, next) => {
   try {
     res.json({ message: "Logged out successfully" });
@@ -104,7 +100,6 @@ router.post("/logout", authenticateToken, async (req, res, next) => {
   }
 });
 
-// Check Admin Privileges
 router.get("/check-admin", authenticateToken, (req, res) => {
   const { role } = req.user;
 
@@ -117,7 +112,6 @@ router.get("/check-admin", authenticateToken, (req, res) => {
   }
 });
 
-// Protected Route
 router.get("/protected", authenticateToken, (req, res) => {
   res.json({ message: "This is a protected route" });
 });
