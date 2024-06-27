@@ -19,13 +19,36 @@ const getProductById = async (product_id) => {
   );
   return res.rows[0];
 };
+const addProduct = async (
+  name,
+  description,
+  price,
+  category_id,
+  quantity,
+  imgUrl
+) => {
+  const SQL = `
+    INSERT INTO products (product_id, name, description, price, category_id, quantity, img_url, created_at, updated_at)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    RETURNING *;
+  `;
+  const values = [
+    uuidv4(),
+    name,
+    description,
+    price,
+    category_id,
+    quantity,
+    imgUrl,
+  ];
 
-const addProduct = async (name, description, price, category_id) => {
-  const res = await client.query(
-    "INSERT INTO products (product_id, name, description, price, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [uuidv4(), name, description, price, category_id]
-  );
-  return res.rows[0];
+  try {
+    const res = await client.query(SQL, values);
+    return res.rows[0];
+  } catch (err) {
+    console.error("Error adding product", err);
+    throw err;
+  }
 };
 
 const updateProduct = async (
@@ -78,9 +101,22 @@ router.get(
 );
 
 router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
-  const { name, description, price, category_id } = req.body;
+  const { name, description, price, category_id, quantity, imgUrl } = req.body;
+
   try {
-    const newProduct = await addProduct(name, description, price, category_id);
+    if (!name || !price || !category_id || !quantity || !imgUrl) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const newProduct = await addProduct(
+      name,
+      description,
+      price,
+      category_id,
+      quantity,
+      imgUrl
+    );
+
     res.status(201).json(newProduct);
   } catch (error) {
     next(error);

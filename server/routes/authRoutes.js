@@ -2,14 +2,16 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 const { client } = require("../db");
 const { jwtSecret } = require("../config");
 const {
   authenticateToken,
   verifyAdmin,
 } = require("../middleware/authMiddleware");
-const { v4: uuidv4 } = require("uuid");
+const { signupUser, updateUserToAdmin } = require("../utils/userUtils");
 
+// Generate JWT Token
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -22,9 +24,17 @@ const generateToken = (user) => {
   );
 };
 
+// Signup User
 router.post("/signup", async (req, res, next) => {
-  const { username, email, password, full_name, address, phone_number } =
-    req.body;
+  const {
+    username,
+    email,
+    password,
+    full_name,
+    address,
+    phone_number,
+    is_admin,
+  } = req.body;
 
   if (!password) {
     return res.status(400).json({ message: "Password is required" });
@@ -39,32 +49,25 @@ router.post("/signup", async (req, res, next) => {
       return res.status(400).json({ message: "Username already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userId = uuidv4();
-
-    const result = await client.query(
-      "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [
-        userId,
-        username,
-        email,
-        hashedPassword,
-        full_name,
-        address,
-        phone_number,
-      ]
+    const newUser = await signupUser(
+      username,
+      email,
+      password,
+      full_name,
+      address,
+      phone_number,
+      is_admin || false
     );
 
-    const newUser = result.rows[0];
     const token = generateToken(newUser);
-
     res.status(201).json({ user: newUser, token });
   } catch (error) {
-    console.error("Error signing up user:", error);
+    console.error("Error signing up:", error);
     next(error);
   }
 });
 
+// Login User
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -84,7 +87,6 @@ router.post("/login", async (req, res, next) => {
     }
 
     const token = generateToken(user);
-
     res.json({ user, token });
   } catch (error) {
     console.error("Error logging in:", error);
@@ -92,6 +94,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+// Logout User
 router.post("/logout", authenticateToken, async (req, res, next) => {
   try {
     res.json({ message: "Logged out successfully" });
@@ -101,6 +104,7 @@ router.post("/logout", authenticateToken, async (req, res, next) => {
   }
 });
 
+// Check Admin Privileges
 router.get("/check-admin", authenticateToken, (req, res) => {
   const { role } = req.user;
 
@@ -113,6 +117,7 @@ router.get("/check-admin", authenticateToken, (req, res) => {
   }
 });
 
+// Protected Route
 router.get("/protected", authenticateToken, (req, res) => {
   res.json({ message: "This is a protected route" });
 });

@@ -3,10 +3,6 @@ const { NODE_ENV } = process.env;
 const handleServerError = (err, req, res, next) => {
   console.error("Server Error:", err);
 
-  if (res.headersSent) {
-    return next(err);
-  }
-
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   res.status(statusCode);
 
