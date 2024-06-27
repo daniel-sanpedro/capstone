@@ -11,6 +11,7 @@ const ordersRouter = require("./routes/orderRoutes");
 const paymentsRouter = require("./routes/paymentRoutes");
 const shippingInfoRouter = require("./routes/shippingRoutes");
 const authRouter = require("./routes/authRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const { port } = require("./config");
 
 const app = express();
@@ -221,6 +222,7 @@ app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
 app.use("/shipping-info", shippingInfoRouter);
+app.use("/cart", cartRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the whiskey site");

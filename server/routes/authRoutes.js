@@ -4,20 +4,31 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { client } = require("../db");
 const { jwtSecret } = require("../config");
-const { authenticateToken } = require("../middleware/authMiddleware");
+const {
+  authenticateToken,
+  verifyAdmin,
+} = require("../middleware/authMiddleware");
 const { v4: uuidv4 } = require("uuid");
 
 const generateToken = (user) => {
   return jwt.sign(
-    { user_id: user.user_id, username: user.username },
+    {
+      user_id: user.user_id,
+      username: user.username,
+      is_admin: user.is_admin,
+    },
     jwtSecret,
     { expiresIn: "1h" }
   );
 };
-console.log(jwtSecret, process.env.JWT_SECRET);
+
 router.post("/signup", async (req, res, next) => {
   const { username, email, password, full_name, address, phone_number } =
     req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  }
 
   try {
     const userCheck = await client.query(
@@ -45,7 +56,6 @@ router.post("/signup", async (req, res, next) => {
     );
 
     const newUser = result.rows[0];
-
     const token = generateToken(newUser);
 
     res.status(201).json({ user: newUser, token });
@@ -89,6 +99,22 @@ router.post("/logout", authenticateToken, async (req, res, next) => {
     console.error("Error logging out:", error);
     next(error);
   }
+});
+
+router.get("/check-admin", authenticateToken, (req, res) => {
+  const { role } = req.user;
+
+  if (role === "admin") {
+    res.json({ isAdmin: true });
+  } else {
+    res
+      .status(403)
+      .json({ isAdmin: false, message: "Access denied. Admins only." });
+  }
+});
+
+router.get("/protected", authenticateToken, (req, res) => {
+  res.json({ message: "This is a protected route" });
 });
 
 module.exports = router;

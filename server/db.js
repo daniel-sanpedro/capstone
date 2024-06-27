@@ -20,6 +20,7 @@ const createTables = async () => {
       full_name VARCHAR(100),
       address TEXT,
       phone_number VARCHAR(20),
+      is_admin BOOLEAN DEFAULT FALSE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

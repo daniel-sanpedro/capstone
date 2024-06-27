@@ -1,26 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const { v4: uuidv4 } = require("uuid"); // for generating UUIDs
-const { pool } = require("../db"); // assuming you have a PostgreSQL pool set up
+const { v4: uuidv4 } = require("uuid");
+const { pool } = require("../db");
 
-// POST /auth/signup
 router.post("/signup", async (req, res) => {
-  const { username, email, password, full_name, address, phone_number } =
-    req.body;
+  const {
+    username,
+    email,
+    password,
+    full_name,
+    address,
+    phone_number,
+    is_admin,
+  } = req.body;
 
   try {
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Generate UUID for user_id
     const user_id = uuidv4();
 
-    // Insert user into database
     const query = `
-      INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING user_id, username, email, full_name, address, phone_number, created_at
+      INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number, is_admin)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING user_id, username, email, full_name, address, phone_number, is_admin, created_at
     `;
     const values = [
       user_id,
@@ -30,11 +32,11 @@ router.post("/signup", async (req, res) => {
       full_name,
       address,
       phone_number,
+      is_admin || false,
     ];
 
     const { rows } = await pool.query(query, values);
-
-    const newUser = rows[0]; // get the first row returned (should be the newly created user)
+    const newUser = rows[0];
 
     res.status(201).json(newUser);
   } catch (error) {

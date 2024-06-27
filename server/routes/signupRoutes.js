@@ -3,51 +3,67 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 const { client } = require("../db");
+const { signupUser } = require("../utils/userUtils");
+const { updateUserToAdmin } = require("../utils/userUtils");
 
-router.post("/signup", async (req, res, next) => {
-  const { username, email, password, full_name, address, phone_number } =
-    req.body;
+const signupUser = async (
+  username,
+  email,
+  password,
+  full_name,
+  address,
+  phone_number,
+  isAdmin = false
+) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user_id = uuidv4();
+  try {
+    const result = await client.query(
+      "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number, is_admin) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      [
+        user_id,
+        username,
+        email,
+        hashedPassword,
+        full_name,
+        address,
+        phone_number,
+        isAdmin,
+      ]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error signing up user:", error);
+    throw error;
+  }
+};
+
+router.post("/signup", async (req, res) => {
+  const {
+    username,
+    email,
+    password,
+    full_name,
+    address,
+    phone_number,
+    is_admin,
+  } = req.body;
 
   try {
-    const checkUserQuery = `
-      SELECT * FROM users
-      WHERE username = $1 OR email = $2;
-    `;
-    const checkUserValues = [username, email];
-    const { rows } = await client.query(checkUserQuery, checkUserValues);
-
-    if (rows.length > 0) {
-      return res
-        .status(400)
-        .json({ message: "Username or email already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const userId = uuidv4();
-
-    const insertUserQuery = `
-      INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING user_id, username, email, full_name, address, phone_number;
-    `;
-    const insertUserValues = [
-      userId,
+    const newUser = await signupUser(
       username,
       email,
-      hashedPassword,
+      password,
       full_name,
       address,
       phone_number,
-    ];
-    const result = await client.query(insertUserQuery, insertUserValues);
-
-    const newUser = result.rows[0];
+      is_admin || false
+    );
 
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error signing up:", error);
-    next(error);
+    res.status(500).json({ message: "Signup failed. Please try again later." });
   }
 });
 
