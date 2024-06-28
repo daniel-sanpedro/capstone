@@ -1,15 +1,11 @@
-const { client } = require("../db");
+const { createTables } = require("./db");
 
-const startServer = async (app, port) => {
+const run = async () => {
   try {
-    await client.connect();
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-    });
+    await createTables();
   } catch (err) {
-    console.error("Error starting server:", err);
-    process.exit(1);
+    console.error("Error running table creation script:", err);
   }
 };
 
-module.exports = startServer;
+run();

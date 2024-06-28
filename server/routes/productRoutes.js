@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { client } = require("../db");
+const client = require("../client");
 const { v4: uuidv4 } = require("uuid");
 const {
   authenticateToken,
@@ -19,6 +19,7 @@ const getProductById = async (product_id) => {
   );
   return res.rows[0];
 };
+
 const addProduct = async (
   name,
   description,
@@ -73,7 +74,7 @@ const deleteProduct = async (product_id) => {
   return res.rows[0];
 };
 
-router.get("/", authenticateToken, verifyAdmin, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const products = await getAllProducts();
     res.json(products);
@@ -82,27 +83,21 @@ router.get("/", authenticateToken, verifyAdmin, async (req, res, next) => {
   }
 });
 
-router.get(
-  "/:product_id",
-  authenticateToken,
-  verifyAdmin,
-  async (req, res, next) => {
-    const { product_id } = req.params;
-    try {
-      const product = await getProductById(product_id);
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(product);
-    } catch (error) {
-      next(error);
+router.get("/:product_id", async (req, res, next) => {
+  const { product_id } = req.params;
+  try {
+    const product = await getProductById(product_id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
+    res.json(product);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
   const { name, description, price, category_id, quantity, imgUrl } = req.body;
-
   try {
     if (!name || !price || !category_id || !quantity || !imgUrl) {
       return res.status(400).json({ message: "All fields are required" });

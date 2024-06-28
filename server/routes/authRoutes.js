@@ -1,27 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
-const { client } = require("../db");
-const { jwtSecret } = require("../config");
+const client = require("../client");
+const generateToken = require("../generateToken");
+const { signupUser, updateUserToAdmin } = require("../utils/userUtils");
 const {
   authenticateToken,
   verifyAdmin,
 } = require("../middleware/authMiddleware");
-const { signupUser, updateUserToAdmin } = require("../utils/userUtils");
-
-const generateToken = (user) => {
-  return jwt.sign(
-    {
-      user_id: user.user_id,
-      username: user.username,
-      is_admin: user.is_admin,
-    },
-    jwtSecret,
-    { expiresIn: "1h" }
-  );
-};
 
 router.post("/signup", async (req, res, next) => {
   const {

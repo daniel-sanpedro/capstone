@@ -13,7 +13,6 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
-      console.error("Token verification error:", err);
       return res.status(403).json({ message: "Invalid token" });
     }
     req.user = decoded;
@@ -30,7 +29,4 @@ const verifyAdmin = (req, res, next) => {
   next();
 };
 
-module.exports = {
-  authenticateToken,
-  verifyAdmin,
-};
+module.exports = { authenticateToken, verifyAdmin };

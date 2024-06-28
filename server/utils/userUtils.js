@@ -1,4 +1,4 @@
-const { client } = require("../db");
+const client = require("../client");
 
 const updateUserToAdmin = async (user_id) => {
   try {

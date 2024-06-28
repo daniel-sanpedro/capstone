@@ -10,7 +10,17 @@ const client = new Client({
 
 const createTables = async () => {
   const SQL = `
-    DROP TABLE IF EXISTS shipping_info, product_reviews, payments, order_items, orders, products, categories, users;
+    DROP TABLE IF EXISTS cart_items CASCADE;
+    DROP TABLE IF EXISTS shipping_info CASCADE;
+    DROP TABLE IF EXISTS product_reviews CASCADE;
+    DROP TABLE IF EXISTS payments CASCADE;
+    DROP TABLE IF EXISTS order_items CASCADE;
+    DROP TABLE IF EXISTS orders CASCADE;
+    DROP TABLE IF EXISTS products CASCADE;
+    DROP TABLE IF EXISTS categories CASCADE;
+    DROP TABLE IF EXISTS users CASCADE;
+
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
     CREATE TABLE IF NOT EXISTS users (
       user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -96,8 +106,14 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    -- Extensions and UUID generation
-    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    CREATE TABLE IF NOT EXISTS cart_items (
+      cart_item_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      user_id UUID REFERENCES users(user_id),
+      product_id UUID REFERENCES products(product_id),
+      quantity INT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
   `;
 
   try {
