@@ -8,6 +8,5 @@ const client = new Client({
 client
   .connect()
   .then(() => console.log("Connected to the database successfully"))
-  .catch((err) => console.error("Error connecting to the database", err));
-
-module.exports = client;
+  .catch((err) => console.error("Error connecting to the database", err))
+  .finally(() => client.end());

@@ -6,11 +6,22 @@ const {
   authenticateToken,
   verifyAdmin,
 } = require("../middleware/authMiddleware");
+const { validate: isUuid } = require("uuid");
+
+// Middleware to validate UUID
+const validateUuid = (req, res, next) => {
+  const { product_id } = req.params;
+  if (!isUuid(product_id)) {
+    return res.status(400).json({ message: "Invalid product ID format" });
+  }
+  next();
+};
 
 const getAllProducts = async () => {
   try {
+    console.log("Executing query to fetch all products...");
     const res = await client.query("SELECT * FROM products");
-    console.log("Products found:", res.rows);
+    console.log("Query executed successfully. Products found:", res.rows); // Additional logging
     return res.rows;
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -26,11 +37,11 @@ const getProductById = async (product_id) => {
   return res.rows[0];
 };
 
-const addProduct = async (name, description, price, quantity, imgUrl) => {
-  const SQL = `INSERT INTO products (product_id, name, description, price, quantity, img_url, created_at, updated_at)
-               VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+const addProduct = async (name, description, price, imgUrl) => {
+  const SQL = `INSERT INTO products (product_id, name, description, price, img_url, created_at, updated_at)
+               VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                RETURNING *;`;
-  const values = [uuidv4(), name, description, price, quantity, imgUrl];
+  const values = [uuidv4(), name, description, price, imgUrl];
 
   try {
     const res = await client.query(SQL, values);
@@ -59,14 +70,17 @@ const deleteProduct = async (product_id) => {
 
 router.get("/", async (req, res, next) => {
   try {
+    console.log("Received request to fetch all products.");
     const products = await getAllProducts();
+    console.log("Products retrieved in API route /api/products:", products);
     res.json(products);
   } catch (error) {
+    console.error("Error in /api/products route:", error);
     next(error);
   }
 });
 
-router.get("/:product_id", async (req, res, next) => {
+router.get("/:product_id", validateUuid, async (req, res, next) => {
   const { product_id } = req.params;
   try {
     const product = await getProductById(product_id);
@@ -80,19 +94,12 @@ router.get("/:product_id", async (req, res, next) => {
 });
 
 router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
-  const { name, description, price, quantity, imgUrl } = req.body;
+  const { name, description, price, imgUrl } = req.body;
   try {
-    if (!name || !price || !quantity || !imgUrl) {
+    if (!name || !price || !imgUrl) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
-    const newProduct = await addProduct(
-      name,
-      description,
-      price,
-      quantity,
-      imgUrl
-    );
+    const newProduct = await addProduct(name, description, price, imgUrl);
     res.status(201).json(newProduct);
   } catch (error) {
     next(error);
@@ -103,6 +110,7 @@ router.put(
   "/:product_id",
   authenticateToken,
   verifyAdmin,
+  validateUuid,
   async (req, res, next) => {
     const { product_id } = req.params;
     const { name, description, price } = req.body;
@@ -127,6 +135,7 @@ router.delete(
   "/:product_id",
   authenticateToken,
   verifyAdmin,
+  validateUuid,
   async (req, res, next) => {
     const { product_id } = req.params;
     try {

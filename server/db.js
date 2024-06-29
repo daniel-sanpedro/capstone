@@ -1,24 +1,12 @@
 const { Client } = require("pg");
+require("dotenv").config();
 
 const client = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const createTables = async () => {
   const SQL = `
-    DROP TABLE IF EXISTS cart_items CASCADE;
-    DROP TABLE IF EXISTS shipping_info CASCADE;
-    DROP TABLE IF EXISTS product_reviews CASCADE;
-    DROP TABLE IF EXISTS payments CASCADE;
-    DROP TABLE IF EXISTS order_items CASCADE;
-    DROP TABLE IF EXISTS orders CASCADE;
-    DROP TABLE IF EXISTS products CASCADE;
-    DROP TABLE IF EXISTS categories CASCADE;
-    DROP TABLE IF EXISTS users CASCADE;
 
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -35,19 +23,13 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS categories (
-      category_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      name VARCHAR(100) NOT NULL UNIQUE,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-
     CREATE TABLE IF NOT EXISTS products (
       product_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(255) NOT NULL,
       description TEXT,
       price DECIMAL(10, 2) NOT NULL,
-      category_id UUID REFERENCES categories(category_id),
+      quantity INT NOT NULL,
+      img_url TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -80,17 +62,6 @@ const createTables = async () => {
       payment_method VARCHAR(50),
       transaction_id VARCHAR(100),
       status VARCHAR(50) DEFAULT 'success',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS product_reviews (
-      review_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      product_id UUID REFERENCES products(product_id),
-      user_id UUID REFERENCES users(user_id),
-      rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-      review_text TEXT,
-      review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -129,6 +100,5 @@ const createTables = async () => {
 };
 
 module.exports = {
-  client,
   createTables,
 };

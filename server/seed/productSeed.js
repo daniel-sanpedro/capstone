@@ -1,6 +1,8 @@
+const { v4: uuidv4 } = require("uuid");
+
 const products = [
   {
-    id: 1,
+    id: uuidv4(),
     name: "Bulleit Bourbon",
     price: 29.99,
     quantity: 15,
@@ -9,7 +11,7 @@ const products = [
     description: "A bold, spicy rye backbone with a smooth, clean finish.",
   },
   {
-    id: 2,
+    id: uuidv4(),
     name: "Blanton's Original Single Barrel Bourbon",
     price: 69.99,
     quantity: 6,
@@ -19,7 +21,7 @@ const products = [
       "Rich and complex, with a balance of citrus, oak, and sweet vanilla.",
   },
   {
-    id: 3,
+    id: uuidv4(),
     name: "Buffalo Trace Bourbon",
     price: 29.99,
     quantity: 14,
@@ -29,7 +31,7 @@ const products = [
       "An aromatic, versatile bourbon known for its deep amber color and complex flavor profile.",
   },
   {
-    id: 4,
+    id: uuidv4(),
     name: "Woodford Reserve Bourbon",
     price: 34.99,
     quantity: 12,
@@ -39,7 +41,7 @@ const products = [
       "Smooth and balanced with rich flavors of vanilla, honey, and a hint of spice.",
   },
   {
-    id: 5,
+    id: uuidv4(),
     name: "Eagle Rare 10 Year Old",
     price: 49.99,
     quantity: 10,
@@ -49,7 +51,7 @@ const products = [
       "A full-bodied bourbon offering tantalizing notes of toffee, orange peel, and herbs.",
   },
   {
-    id: 6,
+    id: uuidv4(),
     name: "Elijah Craig Small Batch Bourbon",
     price: 39.99,
     quantity: 8,
@@ -59,7 +61,7 @@ const products = [
       "Complex and smooth, with layers of vanilla, caramel, and nutmeg.",
   },
   {
-    id: 7,
+    id: uuidv4(),
     name: "Four Roses Single Barrel Bourbon",
     price: 49.99,
     quantity: 7,
@@ -69,7 +71,7 @@ const products = [
       "Delicate and fruity, offering distinct flavors of pear, apple, and honey.",
   },
   {
-    id: 8,
+    id: uuidv4(),
     name: "Maker's Mark Bourbon",
     price: 24.99,
     quantity: 20,
@@ -79,7 +81,7 @@ const products = [
       "Sweet and balanced with caramel, vanilla, and fruity essences.",
   },
   {
-    id: 9,
+    id: uuidv4(),
     name: "Knob Creek 9 Year Old Bourbon",
     price: 39.99,
     quantity: 12,
@@ -89,7 +91,7 @@ const products = [
       "Robust vanilla and caramel notes with long, warm, and rich finish.",
   },
   {
-    id: 10,
+    id: uuidv4(),
     name: "Wild Turkey 101 Bourbon",
     price: 22.99,
     quantity: 18,
@@ -99,7 +101,7 @@ const products = [
       "High proof and full of bold flavors, noted for its deep character and smooth finish.",
   },
   {
-    id: 11,
+    id: uuidv4(),
     name: "Old Forester 1920 Prohibition Style Bourbon",
     price: 59.99,
     quantity: 8,
@@ -109,7 +111,7 @@ const products = [
       "A rich burst of chocolate and black cherry with a smoky, spicy finish.",
   },
   {
-    id: 12,
+    id: uuidv4(),
     name: "1792 Small Batch Bourbon",
     price: 29.99,
     quantity: 10,
@@ -118,7 +120,7 @@ const products = [
     description: "Spicy and sweet with notes of vanilla, toffee, and pepper.",
   },
   {
-    id: 13,
+    id: uuidv4(),
     name: "Henry McKenna 10 Year Old Single Barrel Bourbon",
     price: 49.99,
     quantity: 5,
@@ -128,7 +130,7 @@ const products = [
       "Aged to perfection to produce tastes of vanilla, caramel, and seasoned oak.",
   },
   {
-    id: 14,
+    id: uuidv4(),
     name: "Basil Hayden's Bourbon",
     price: 39.99,
     quantity: 9,
@@ -138,7 +140,7 @@ const products = [
       "Light-bodied with hints of spice and tea, an ideal choice for bourbon cocktails.",
   },
   {
-    id: 15,
+    id: uuidv4(),
     name: "Angel's Envy Bourbon",
     price: 49.99,
     quantity: 8,
@@ -148,7 +150,7 @@ const products = [
       "Finished in port wine barrels, offering unique flavors of wine and ripe fruit.",
   },
   {
-    id: 16,
+    id: uuidv4(),
     name: "Booker's Bourbon",
     price: 89.99,
     quantity: 4,
@@ -158,7 +160,7 @@ const products = [
       "Unfiltered and uncut, this bourbon offers an intense flavor and remarkable complexity.",
   },
   {
-    id: 17,
+    id: uuidv4(),
     name: "George T. Stagg Bourbon",
     price: 249.99,
     quantity: 3,
@@ -168,7 +170,7 @@ const products = [
       "An unapologetically strong bourbon, known for its rich, sweet, chocolatey undernotes.",
   },
   {
-    id: 18,
+    id: uuidv4(),
     name: "Pappy Van Winkle's Family Reserve 15 Year Old",
     price: 999.99,
     quantity: 1,
@@ -178,7 +180,7 @@ const products = [
       "Highly sought after for its dark, intensely flavored, deeply complex profile.",
   },
   {
-    id: 19,
+    id: uuidv4(),
     name: "Jefferson's Ocean Aged at Sea Bourbon",
     price: 79.99,
     quantity: 7,
@@ -188,7 +190,7 @@ const products = [
       "Aged at sea, this unique bourbon is influenced by the sea climate, offering saline and caramel notes.",
   },
   {
-    id: 20,
+    id: uuidv4(),
     name: "W.L. Weller Special Reserve Bourbon",
     price: 29.99,
     quantity: 10,
@@ -198,7 +200,7 @@ const products = [
       "A smooth, mild, wheated bourbon that serves as a perfect introduction to the world of premium bourbons.",
   },
   {
-    id: 21,
+    id: uuidv4(),
     name: "Evan Williams Black Label Bourbon",
     price: 17.99,
     quantity: 15,
@@ -208,7 +210,7 @@ const products = [
       "Known for its approachable profile and excellent value, offering hints of nut, chocolate, and vanilla.",
   },
   {
-    id: 22,
+    id: uuidv4(),
     name: "Old Grand-Dad 114 Bourbon",
     price: 29.99,
     quantity: 8,
@@ -218,7 +220,7 @@ const products = [
       "A high-rye bourbon with a spicy kick, balanced by underlying notes of vanilla and oak.",
   },
   {
-    id: 23,
+    id: uuidv4(),
     name: "Rebel Yell 10 Year Old Single Barrel Bourbon",
     price: 59.99,
     quantity: 5,
@@ -228,7 +230,7 @@ const products = [
       "Single barrel that offers a smooth, buttery profile with a spicy, warm finish.",
   },
   {
-    id: 24,
+    id: uuidv4(),
     name: "Wild Turkey Rare Breed Bourbon",
     price: 49.99,
     quantity: 10,

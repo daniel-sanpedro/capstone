@@ -1,7 +1,5 @@
-require("dotenv").config(); // Load environment variables at the top
-
+require("dotenv").config();
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const routes = require("./routes");
 const {
@@ -10,11 +8,13 @@ const {
 } = require("./middleware/errorMiddleware");
 const { createTables } = require("./db");
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use("/api", routes);
+
 app.get("/", (req, res) => {
   res.send("Welcome to the whiskey site");
 });
