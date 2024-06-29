@@ -8,8 +8,14 @@ const {
 } = require("../middleware/authMiddleware");
 
 const getAllProducts = async () => {
-  const res = await client.query("SELECT * FROM products");
-  return res.rows;
+  try {
+    const res = await client.query("SELECT * FROM products");
+    console.log("Products found:", res.rows);
+    return res.rows;
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    throw err;
+  }
 };
 
 const getProductById = async (product_id) => {
@@ -20,28 +26,11 @@ const getProductById = async (product_id) => {
   return res.rows[0];
 };
 
-const addProduct = async (
-  name,
-  description,
-  price,
-  category_id,
-  quantity,
-  imgUrl
-) => {
-  const SQL = `
-    INSERT INTO products (product_id, name, description, price, category_id, quantity, img_url, created_at, updated_at)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    RETURNING *;
-  `;
-  const values = [
-    uuidv4(),
-    name,
-    description,
-    price,
-    category_id,
-    quantity,
-    imgUrl,
-  ];
+const addProduct = async (name, description, price, quantity, imgUrl) => {
+  const SQL = `INSERT INTO products (product_id, name, description, price, quantity, img_url, created_at, updated_at)
+               VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+               RETURNING *;`;
+  const values = [uuidv4(), name, description, price, quantity, imgUrl];
 
   try {
     const res = await client.query(SQL, values);
@@ -52,16 +41,10 @@ const addProduct = async (
   }
 };
 
-const updateProduct = async (
-  product_id,
-  name,
-  description,
-  price,
-  category_id
-) => {
+const updateProduct = async (product_id, name, description, price) => {
   const res = await client.query(
-    "UPDATE products SET name = $1, description = $2, price = $3, category_id = $4, updated_at = CURRENT_TIMESTAMP WHERE product_id = $5 RETURNING *",
-    [name, description, price, category_id, product_id]
+    "UPDATE products SET name = $1, description = $2, price = $3, updated_at = CURRENT_TIMESTAMP WHERE product_id = $4 RETURNING *",
+    [name, description, price, product_id]
   );
   return res.rows[0];
 };
@@ -97,9 +80,9 @@ router.get("/:product_id", async (req, res, next) => {
 });
 
 router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
-  const { name, description, price, category_id, quantity, imgUrl } = req.body;
+  const { name, description, price, quantity, imgUrl } = req.body;
   try {
-    if (!name || !price || !category_id || !quantity || !imgUrl) {
+    if (!name || !price || !quantity || !imgUrl) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -107,11 +90,9 @@ router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
       name,
       description,
       price,
-      category_id,
       quantity,
       imgUrl
     );
-
     res.status(201).json(newProduct);
   } catch (error) {
     next(error);
@@ -124,14 +105,13 @@ router.put(
   verifyAdmin,
   async (req, res, next) => {
     const { product_id } = req.params;
-    const { name, description, price, category_id } = req.body;
+    const { name, description, price } = req.body;
     try {
       const updatedProduct = await updateProduct(
         product_id,
         name,
         description,
-        price,
-        category_id
+        price
       );
       if (!updatedProduct) {
         return res.status(404).json({ message: "Product not found" });

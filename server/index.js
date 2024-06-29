@@ -1,4 +1,7 @@
+require("dotenv").config(); // Load environment variables at the top
+
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const routes = require("./routes");
 const {
@@ -7,7 +10,6 @@ const {
 } = require("./middleware/errorMiddleware");
 const { createTables } = require("./db");
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
