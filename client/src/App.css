@@ -1,12 +1,13 @@
-/* Global styles */
+/* Base Body Styles */
 body {
   background: #555555;
   color: #212121;
   font-family: "Minecraft", sans-serif;
   margin: 0;
-  margin-top: 0;
+  padding-top: 50px; /* Padding to prevent overlap with fixed navbar */
 }
 
+/* Root Container Styles */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -14,54 +15,35 @@ body {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-/* Styles from style.css */
-
+/* Navbar Styles */
 .navbar {
   overflow: hidden;
   background-color: #373737;
   position: fixed;
-  bottom: 0;
+  top: 0;
+  left: 0;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .navbar a {
-  float: left;
   display: block;
   color: hsl(352 77% 60%);
   text-align: center;
-  padding: 14px 16px;
+  padding: 14px 10px;
   text-decoration: none;
   font-size: 17px;
+  box-sizing: border-box;
 }
 
 .navbar a:hover {
@@ -69,21 +51,14 @@ body {
   color: #8b8b8b;
 }
 
-.navbar a.split {
-  float: right;
-  color: hsl(352 77% 60%);
-}
-
-.navbar a.split:hover {
-  background: #ddd;
-  color: #8b8b8b;
-}
-
+/* Main Content Styles */
 .main {
   padding: 16px;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 
+/* Typography */
 h1,
 h2,
 h3,
@@ -94,29 +69,55 @@ h6 {
   color: hsl(352 77% 60%);
 }
 
-.grid {
-  padding: 2rem;
+/* Grid System for Products */
+.products-container {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Product Card Styles */
+.product-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  height: 100%;
 }
 
-.grid > div {
-  flex: 1 1 20rem;
-  padding: 2rem;
-  background: #c6c6c6;
-  border-radius: 2rem;
+.add-to-cart-btn {
+  margin-top: auto;
 }
 
-.grid > div:first-child {
-  flex-basis: 100%;
-  z-index: 1000;
+/* Media Queries for Responsive Grid Columns */
+@media (max-width: 599px) {
+  .products-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.grid > div *:last-child {
-  margin-bottom: 0;
+@media (min-width: 600px) and (max-width: 899px) {
+  .products-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
+@media (min-width: 900px) and (max-width: 1199px) {
+  .products-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .products-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Additional Media Query Handling */
 @media only screen and (max-device-width: 320px) {
   .banner {
     display: none;

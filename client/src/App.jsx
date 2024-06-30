@@ -51,8 +51,8 @@ function App() {
     try {
       const response = await axios.post("/api/checkout", { cartItems: cart });
       console.log("Checkout successful", response.data);
-      setCart([]); // Clear the cart
-      navigate("/"); // Redirect to the front page
+      setCart([]);
+      navigate("/");
     } catch (error) {
       console.error("Checkout failed", error);
     }
