@@ -46,13 +46,15 @@ const ProductList = ({ addToCart }) => {
       {error && <p className="error-message">{error}</p>}
       <div className="products">
         {products.map((product) => (
-          <div key={product.id} className="product">
+          <div key={product.product_id} className="product">
             <div className="product-item">
               <h3>{product.name}</h3>
-              <img src={product.imageUrl} alt={product.name} />
+              <img src={product.img_url} alt={product.name} />
+              <p className="product-description">{product.description}</p>{" "}
+              {/* Added description */}
               <p>${product.price}</p>
               <p>Quantity: {product.quantity}</p>
-              <button onClick={() => addToCartLocal(product.id)}>
+              <button onClick={() => addToCartLocal(product.product_id)}>
                 Add to Cart
               </button>
             </div>
@@ -67,8 +69,9 @@ const ProductList = ({ addToCart }) => {
         ) : (
           <ul>
             {cartItems.map((item) => (
-              <li key={item.id}>
-                {item.name} - ${item.price}
+              <li key={item.product_id}>
+                {item.name} - ${item.price} x {item.quantity}{" "}
+                {/* Added quantity display */}
               </li>
             ))}
           </ul>
