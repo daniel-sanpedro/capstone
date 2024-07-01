@@ -26,7 +26,7 @@ const ProductList = ({ addToCart }) => {
 
   const addToCartLocal = (productId) => {
     const selectedProduct = products.find(
-      (product) => product.id === productId
+      (product) => product.product_id === productId // Use product.product_id consistently
     );
     if (!selectedProduct) {
       console.error(`Product with ID ${productId} not found.`);
@@ -41,7 +41,9 @@ const ProductList = ({ addToCart }) => {
 
   return (
     <div className="product-list">
-      {/* Existing content... */}
+      <h2>Product List</h2>
+      {loading && <p>Loading products...</p>}
+      {error && <p className="error-message">{error}</p>}
       <div className="products-container">
         {products.map((product) => (
           <div key={product.product_id} className="product-card">
@@ -51,23 +53,35 @@ const ProductList = ({ addToCart }) => {
               className="product-image"
             />
             <div className="product-details">
-              <p className="product-description">{product.description}</p>
               <h3>{product.name}</h3>
+              <p className="product-description">{product.description}</p>
               <p>${product.price}</p>
-              <p>Quantity: {product.quantity}</p>
               <button
                 className="add-to-cart-btn"
-                onClick={() => addToCart(product.product_id)}
+                onClick={() => addToCartLocal(product.product_id)}
               >
                 Add to Cart
               </button>
+              <p>Quantity: {product.quantity}</p>
             </div>
           </div>
         ))}
       </div>
-      {/* Existing content... */}
+      <div className="cart">
+        <h3>Cart</h3>
+        {cartItems.length === 0 ? (
+          <p>Your cart is empty.</p>
+        ) : (
+          <ul>
+            {cartItems.map((item) => (
+              <li key={item.product_id}>
+                {item.name} - ${item.price} x {item.quantity}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
-
 export default ProductList;

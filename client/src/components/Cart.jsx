@@ -1,54 +1,31 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Login from "./Login";
+import React from "react";
 
-const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/cart");
-        setCartItems(response.data);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleCheckout = () => {
-    console.log("Checkout functionality");
+const Cart = ({ cart, setCart }) => {
+  const handleRemoveItem = (productId) => {
+    const updatedCart = cart.filter((item) => item.product_id !== productId);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
   };
 
   return (
     <div>
       <h2>Your Cart</h2>
-      {isLoggedIn ? (
-        <>
-          {cartItems.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
-            <ul>
-              {cartItems.map((item) => (
-                <li key={item.id}>
-                  <div>{item.name}</div>
-                  <div>Quantity: {item.quantity}</div>
-                  <div>Price: ${item.price}</div>
-                </li>
-              ))}
-            </ul>
-          )}
-          <button onClick={handleCheckout}>Checkout</button>
-        </>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
       ) : (
-        <Login onLogin={handleLogin} />
+        <ul>
+          {cart.map((item) => (
+            <li key={item.product_id}>
+              <div>{item.name}</div>
+              <div>Quantity: 1</div>{" "}
+              {/* Assuming each cart item is added once */}
+              <div>Price: ${item.price}</div>
+              <button onClick={() => handleRemoveItem(item.product_id)}>
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

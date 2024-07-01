@@ -13,49 +13,37 @@ function App() {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
+  axios.defaults.baseURL = "http://localhost:3000/api";
+
   useEffect(() => {
     fetchProducts();
-    fetchCart();
+    const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCart(storedCart);
   }, []);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("/api/products");
+      const response = await axios.get("/products");
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  const fetchCart = async () => {
-    try {
-      const response = await axios.get("/api/cart");
-      setCart(response.data);
-    } catch (error) {
-      console.error("Error fetching cart:", error);
+  const addToCart = (productId) => {
+    const productToAdd = products.find(
+      (product) => product.product_id === productId
+    );
+    if (!productToAdd) {
+      console.error("Product not found!");
+      return;
     }
-  };
 
-  const addToCart = async (productId) => {
-    try {
-      const response = await axios.post("/api/cart/add", {
-        productId,
-      });
-      setCart(response.data);
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const updatedCart = [...existingCart, productToAdd];
 
-  const handleCheckout = async () => {
-    try {
-      const response = await axios.post("/api/checkout", { cartItems: cart });
-      console.log("Checkout successful", response.data);
-      setCart([]);
-      navigate("/");
-    } catch (error) {
-      console.error("Checkout failed", error);
-    }
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
   };
 
   return (
@@ -76,20 +64,11 @@ function App() {
         <Route
           exact
           path="/"
-          element={
-            <ProductList
-              products={products}
-              setProducts={setProducts}
-              addToCart={addToCart}
-            />
-          }
+          element={<ProductList products={products} addToCart={addToCart} />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route
-          path="/cart"
-          element={<Cart cart={cart} handleCheckout={handleCheckout} />}
-        />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
