@@ -7,25 +7,41 @@ const Cart = ({ cart, setCart }) => {
     setCart(updatedCart);
   };
 
+  const handleCheckout = () => {
+    // Here you can add logic to handle actual payment processes
+    alert("Checkout successful. Thank you for your purchase!");
+    // Clear the cart after checkout
+    localStorage.removeItem("cart");
+    setCart([]);
+  };
+
   return (
     <div>
       <h2>Your Cart</h2>
       {cart.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
-        <ul>
-          {cart.map((item) => (
-            <li key={item.product_id}>
-              <div>{item.name}</div>
-              <div>Quantity: 1</div>{" "}
-              {/* Assuming each cart item is added once */}
-              <div>Price: ${item.price}</div>
-              <button onClick={() => handleRemoveItem(item.product_id)}>
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {cart.map((item) => (
+              <li key={item.product_id}>
+                <div>{item.name}</div>
+                <div>Quantity: {item.quantity || 1}</div>{" "}
+                {/* Handle quantity display */}
+                <div>Price: ${item.price}</div>
+                <button onClick={() => handleRemoveItem(item.product_id)}>
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={handleCheckout}
+            style={{ marginTop: "20px", fontSize: "16px" }}
+          >
+            Checkout
+          </button>
+        </div>
       )}
     </div>
   );

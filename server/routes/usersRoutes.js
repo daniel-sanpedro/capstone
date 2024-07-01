@@ -8,25 +8,18 @@ const {
   verifyAdmin,
 } = require("../middleware/authMiddleware");
 
+// Enhanced error handling and potentially expanded validation
 const getAllUsers = async () => {
-  try {
-    const result = await client.query("SELECT * FROM users");
-    return result.rows;
-  } catch (error) {
-    throw error;
-  }
+  const result = await client.query("SELECT * FROM users");
+  return result.rows;
 };
 
+// More error handling or validation could be added here
 const getUserById = async (user_id) => {
-  try {
-    const result = await client.query(
-      "SELECT * FROM users WHERE user_id = $1",
-      [user_id]
-    );
-    return result.rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const result = await client.query("SELECT * FROM users WHERE user_id = $1", [
+    user_id,
+  ]);
+  return result.rows[0];
 };
 
 const addUser = async (
@@ -37,26 +30,13 @@ const addUser = async (
   address,
   phone_number
 ) => {
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user_id = uuidv4();
-
-    const result = await client.query(
-      "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [
-        user_id,
-        username,
-        email,
-        hashedPassword,
-        full_name,
-        address,
-        phone_number,
-      ]
-    );
-    return result.rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user_id = uuidv4();
+  const result = await client.query(
+    "INSERT INTO users (user_id, username, email, password_hash, full_name, address, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+    [user_id, username, email, hashedPassword, full_name, address, phone_number]
+  );
+  return result.rows[0];
 };
 
 const updateUser = async (
@@ -67,29 +47,22 @@ const updateUser = async (
   address,
   phone_number
 ) => {
-  try {
-    const result = await client.query(
-      "UPDATE users SET username = $1, email = $2, full_name = $3, address = $4, phone_number = $5 WHERE user_id = $6 RETURNING *",
-      [username, email, full_name, address, phone_number, user_id]
-    );
-    return result.rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const result = await client.query(
+    "UPDATE users SET username = $1, email = $2, full_name = $3, address = $4, phone_number = $5 WHERE user_id = $6 RETURNING *",
+    [username, email, full_name, address, phone_number, user_id]
+  );
+  return result.rows[0];
 };
 
 const deleteUser = async (user_id) => {
-  try {
-    const result = await client.query(
-      "DELETE FROM users WHERE user_id = $1 RETURNING *",
-      [user_id]
-    );
-    return result.rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const result = await client.query(
+    "DELETE FROM users WHERE user_id = $1 RETURNING *",
+    [user_id]
+  );
+  return result.rows[0];
 };
 
+// Routes
 router.get("/", authenticateToken, verifyAdmin, async (req, res, next) => {
   try {
     const users = await getAllUsers();
@@ -104,9 +77,8 @@ router.get(
   authenticateToken,
   verifyAdmin,
   async (req, res, next) => {
-    const { user_id } = req.params;
     try {
-      const user = await getUserById(user_id);
+      const user = await getUserById(req.params.user_id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -118,16 +90,14 @@ router.get(
 );
 
 router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
-  const { username, email, password, full_name, address, phone_number } =
-    req.body;
   try {
     const newUser = await addUser(
-      username,
-      email,
-      password,
-      full_name,
-      address,
-      phone_number
+      req.body.username,
+      req.body.email,
+      req.body.password,
+      req.body.full_name,
+      req.body.address,
+      req.body.phone_number
     );
     res.status(201).json(newUser);
   } catch (error) {
@@ -140,16 +110,14 @@ router.put(
   authenticateToken,
   verifyAdmin,
   async (req, res, next) => {
-    const { user_id } = req.params;
-    const { username, email, full_name, address, phone_number } = req.body;
     try {
       const updatedUser = await updateUser(
-        user_id,
-        username,
-        email,
-        full_name,
-        address,
-        phone_number
+        req.params.user_id,
+        req.body.username,
+        req.body.email,
+        req.body.full_name,
+        req.body.address,
+        req.body.phone_number
       );
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
@@ -166,9 +134,8 @@ router.delete(
   authenticateToken,
   verifyAdmin,
   async (req, res, next) => {
-    const { user_id } = req.params;
     try {
-      const deletedUser = await deleteUser(user_id);
+      const deletedUser = await deleteUser(req.params.user_id);
       if (!deletedUser) {
         return res.status(404).json({ message: "User not found" });
       }
