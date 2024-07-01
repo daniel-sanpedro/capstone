@@ -1,16 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const client = require("../client");
-const { v4: uuidv4 } = require("uuid");
-const { authenticateToken } = require("../middleware/authMiddleware");
 
 const createOrder = async (userId, totalAmount) => {
   const SQL = `
-    INSERT INTO orders (order_id, user_id, total_amount)
-    VALUES ($1, $2, $3)
+    INSERT INTO orders (user_id, total_amount)
+    VALUES ($1, $2)
     RETURNING *;
   `;
-  const values = [uuidv4(), userId, totalAmount];
+  const values = [userId, totalAmount];
 
   const res = await client.query(SQL, values);
   return res.rows[0];
@@ -18,17 +16,17 @@ const createOrder = async (userId, totalAmount) => {
 
 const createPayment = async (orderId, amount, paymentMethod) => {
   const SQL = `
-    INSERT INTO payments (payment_id, order_id, amount, payment_method)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO payments (order_id, amount, payment_method)
+    VALUES ($1, $2, $3)
     RETURNING *;
   `;
-  const values = [uuidv4(), orderId, amount, paymentMethod];
+  const values = [orderId, amount, paymentMethod];
 
   const res = await client.query(SQL, values);
   return res.rows[0];
 };
 
-router.post("/checkout", authenticateToken, async (req, res, next) => {
+router.post("/checkout", async (req, res, next) => {
   const { totalAmount, paymentMethod } = req.body;
 
   try {

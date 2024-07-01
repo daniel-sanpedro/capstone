@@ -10,6 +10,7 @@ const {
 } = require("../middleware/authMiddleware");
 
 router.post("/signup", async (req, res, next) => {
+  console.log("Request Body:", req.body);
   const {
     username,
     email,

@@ -1,27 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const client = require("../client");
-const { v4: uuidv4 } = require("uuid");
-const {
-  authenticateToken,
-  verifyAdmin,
-} = require("../middleware/authMiddleware");
-const { validate: isUuid } = require("uuid");
-
-// Middleware to validate UUID
-const validateUuid = (req, res, next) => {
-  const { product_id } = req.params;
-  if (!isUuid(product_id)) {
-    return res.status(400).json({ message: "Invalid product ID format" });
-  }
-  next();
-};
 
 const getAllProducts = async () => {
   try {
     console.log("Executing query to fetch all products...");
     const res = await client.query("SELECT * FROM products");
-    console.log("Query executed successfully. Products found:", res.rows); // Additional logging
+    console.log("Query executed successfully. Products found:", res.rows);
     return res.rows;
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -32,16 +17,16 @@ const getAllProducts = async () => {
 const getProductById = async (product_id) => {
   const res = await client.query(
     "SELECT * FROM products WHERE product_id = $1",
-    [product_id]
+    [parseInt(product_id)] // Make sure product_id is treated as an integer
   );
   return res.rows[0];
 };
 
 const addProduct = async (name, description, price, imgUrl) => {
-  const SQL = `INSERT INTO products (product_id, name, description, price, img_url, created_at, updated_at)
-               VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  const SQL = `INSERT INTO products (name, description, price, img_url, created_at, updated_at)
+               VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                RETURNING *;`;
-  const values = [uuidv4(), name, description, price, imgUrl];
+  const values = [name, description, price, imgUrl];
 
   try {
     const res = await client.query(SQL, values);
@@ -80,7 +65,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:product_id", validateUuid, async (req, res, next) => {
+router.get("/:product_id", async (req, res, next) => {
   const { product_id } = req.params;
   try {
     const product = await getProductById(product_id);
@@ -93,7 +78,7 @@ router.get("/:product_id", validateUuid, async (req, res, next) => {
   }
 });
 
-router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const { name, description, price, imgUrl } = req.body;
   try {
     if (!name || !price || !imgUrl) {
@@ -106,48 +91,36 @@ router.post("/", authenticateToken, verifyAdmin, async (req, res, next) => {
   }
 });
 
-router.put(
-  "/:product_id",
-  authenticateToken,
-  verifyAdmin,
-  validateUuid,
-  async (req, res, next) => {
-    const { product_id } = req.params;
-    const { name, description, price } = req.body;
-    try {
-      const updatedProduct = await updateProduct(
-        product_id,
-        name,
-        description,
-        price
-      );
-      if (!updatedProduct) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(updatedProduct);
-    } catch (error) {
-      next(error);
+router.put("/:product_id", async (req, res, next) => {
+  const { product_id } = req.params;
+  const { name, description, price } = req.body;
+  try {
+    const updatedProduct = await updateProduct(
+      product_id,
+      name,
+      description,
+      price
+    );
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
     }
+    res.json(updatedProduct);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-router.delete(
-  "/:product_id",
-  authenticateToken,
-  verifyAdmin,
-  validateUuid,
-  async (req, res, next) => {
-    const { product_id } = req.params;
-    try {
-      const deletedProduct = await deleteProduct(product_id);
-      if (!deletedProduct) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(deletedProduct);
-    } catch (error) {
-      next(error);
+router.delete("/:product_id", async (req, res, next) => {
+  const { product_id } = req.params;
+  try {
+    const deletedProduct = await deleteProduct(product_id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "Product not found" });
     }
+    res.json(deletedProduct);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 module.exports = router;

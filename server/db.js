@@ -8,10 +8,8 @@ const client = new Client({
 const createTables = async () => {
   const SQL = `
 
-    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
     CREATE TABLE IF NOT EXISTS users (
-      user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      user_id SERIAL PRIMARY KEY,
       username VARCHAR(50) NOT NULL UNIQUE,
       email VARCHAR(100) NOT NULL UNIQUE,
       password_hash VARCHAR(255) NOT NULL,
@@ -24,7 +22,7 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS products (
-      product_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      product_id SERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       description TEXT,
       price DECIMAL(10, 2) NOT NULL,
@@ -35,8 +33,8 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS orders (
-      order_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      user_id UUID REFERENCES users(user_id),
+      order_id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(user_id),
       order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       total_amount DECIMAL(10, 2) NOT NULL,
       status VARCHAR(50) DEFAULT 'pending',
@@ -45,9 +43,9 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS order_items (
-      order_item_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      order_id UUID REFERENCES orders(order_id),
-      product_id UUID REFERENCES products(product_id),
+      order_item_id SERIAL PRIMARY KEY,
+      order_id INTEGER REFERENCES orders(order_id),
+      product_id INTEGER REFERENCES products(product_id),
       quantity INT NOT NULL,
       price DECIMAL(10, 2) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -55,8 +53,8 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS payments (
-      payment_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      order_id UUID REFERENCES orders(order_id),
+      payment_id SERIAL PRIMARY KEY,
+      order_id INTEGER REFERENCES orders(order_id),
       amount DECIMAL(10, 2) NOT NULL,
       payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       payment_method VARCHAR(50),
@@ -67,8 +65,8 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS shipping_info (
-      shipping_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      order_id UUID REFERENCES orders(order_id),
+      shipping_id SERIAL PRIMARY KEY,
+      order_id INTEGER REFERENCES orders(order_id),
       shipping_address TEXT,
       shipping_method VARCHAR(100),
       tracking_number VARCHAR(100),
@@ -78,9 +76,9 @@ const createTables = async () => {
     );
 
     CREATE TABLE IF NOT EXISTS cart_items (
-      cart_item_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      user_id UUID REFERENCES users(user_id),
-      product_id UUID REFERENCES products(product_id),
+      cart_item_id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(user_id),
+      product_id INTEGER REFERENCES products(product_id),
       quantity INT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
