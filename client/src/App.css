@@ -1,6 +1,6 @@
 /* Base Body Styles */
 body {
-  background: #555555;
+  background: #ffffff;
   color: #212121;
   font-family: "Minecraft", sans-serif;
   margin: 0;
@@ -72,48 +72,64 @@ h6 {
 /* Grid System for Products */
 .products-container {
   display: grid;
-  gap: 20px;
+  gap: 40px; /* Increased gap for more space */
   padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 /* Product Card Styles */
 .product-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #ccc;
+  justify-content: flex-end; /* Aligns everything to the bottom */
+  border: 2px solid #ccc;
   padding: 10px;
   border-radius: 8px;
   text-align: center;
-  height: 100%;
+  background-color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 100%; /* Ensure the card stretches to full available height */
+}
+
+.product-image {
+  width: 100%; /* Full width of the card */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 10px; /* Space between the image and the next element */
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Ensures text content is also bottom-aligned */
 }
 
 .add-to-cart-btn {
-  margin-top: auto;
+  margin-top: 10px; /* Ensure there's some space above the button */
 }
 
 /* Media Queries for Responsive Grid Columns */
 @media (max-width: 599px) {
   .products-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 
 @media (min-width: 600px) and (max-width: 899px) {
   .products-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 
 @media (min-width: 900px) and (max-width: 1199px) {
   .products-container {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 
 @media (min-width: 1200px) {
   .products-container {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 

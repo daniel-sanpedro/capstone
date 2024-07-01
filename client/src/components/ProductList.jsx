@@ -41,46 +41,31 @@ const ProductList = ({ addToCart }) => {
 
   return (
     <div className="product-list">
-      <h2>Product List</h2>
-      {loading && <p>Loading products...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {/* Existing content... */}
       <div className="products-container">
         {products.map((product) => (
           <div key={product.product_id} className="product-card">
-            <div className="product-content">
+            <img
+              src={product.img_url}
+              alt={product.name}
+              className="product-image"
+            />
+            <div className="product-details">
               <h3>{product.name}</h3>
-              <img
-                src={product.img_url}
-                alt={product.name}
-                style={{ width: "100px", height: "100px" }}
-              />
               <p className="product-description">{product.description}</p>
               <p>${product.price}</p>
               <p>Quantity: {product.quantity}</p>
+              <button
+                className="add-to-cart-btn"
+                onClick={() => addToCart(product.product_id)}
+              >
+                Add to Cart
+              </button>
             </div>
-            <button
-              className="add-to-cart-btn"
-              onClick={() => addToCartLocal(product.product_id)}
-            >
-              Add to Cart
-            </button>
           </div>
         ))}
       </div>
-      <div className="cart">
-        <h3>Cart</h3>
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item.product_id}>
-                {item.name} - ${item.price} x {item.quantity}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {/* Existing content... */}
     </div>
   );
 };
