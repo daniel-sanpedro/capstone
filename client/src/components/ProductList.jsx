@@ -51,8 +51,8 @@ const ProductList = ({ addToCart }) => {
               className="product-image"
             />
             <div className="product-details">
-              <h3>{product.name}</h3>
               <p className="product-description">{product.description}</p>
+              <h3>{product.name}</h3>
               <p>${product.price}</p>
               <p>Quantity: {product.quantity}</p>
               <button
