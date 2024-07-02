@@ -34,6 +34,10 @@ app.get("/", (req, res) => {
 app.use(handleNotFoundError);
 app.use(handleServerError);
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 const startServer = async () => {
   try {
     await createTables();
