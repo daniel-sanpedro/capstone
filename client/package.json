@@ -5,11 +5,17 @@
   "type": "module",
   "main": "src/app.js",
   "scripts": {
+    "render-postbuild": "npm install --prefix client && npm run build --prefix client",
+    "install": "npm install --prefix server && npm install --prefix client",
+    "dev:backend": "npm start --prefix server",
+    "dev:frontend": "npm start --prefix client",
+    "build:backend": "npm run build --prefix server",
+    "build:frontend": "npm run build --prefix client",
+    "start": "node server/index.js",
+    "build": "npm run build:backend && npm run build:frontend",
     "dev": "vite",
-    "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start": "node client/src/app.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.7.2",
