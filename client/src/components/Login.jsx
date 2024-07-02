@@ -34,7 +34,7 @@ const Login = () => {
     } catch (error) {
       console.error("Login error:", error);
       setError(error.message);
-      setPassword(""); // Clear password field on error
+      setPassword("");
     } finally {
       setLoading(false);
     }
