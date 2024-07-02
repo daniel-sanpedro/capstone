@@ -26,7 +26,7 @@ const ProductList = ({ addToCart }) => {
 
   const addToCartLocal = (productId) => {
     const selectedProduct = products.find(
-      (product) => product.product_id === productId // Use product.product_id consistently
+      (product) => product.product_id === productId
     );
     if (!selectedProduct) {
       console.error(`Product with ID ${productId} not found.`);

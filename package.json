@@ -2,10 +2,10 @@
   "name": "capstone",
   "version": "1.0.0",
   "description": "bulma",
-  "main": "index.js",
+  "main": "src/index.js",
   "proxy": "http://localhost:3000",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
