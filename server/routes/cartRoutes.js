@@ -1,24 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const client = require("../client"); // Assuming your PostgreSQL client setup
-const { authenticateToken } = require("../middleware/authMiddleware"); // Middleware for checking the token
+const client = require("../client");
+const { authenticateToken } = require("../middleware/authMiddleware");
 
-/**
- * Add a product to the cart
- */
 router.post("/add", authenticateToken, async (req, res) => {
   const { productId, quantity } = req.body;
-  const userId = req.user.user_id; // Assuming you have user info in token
+  const userId = req.user.user_id;
 
   try {
-    // SQL to add or update cart item
     const addCartSQL = `
-            INSERT INTO cart_items (user_id, product_id, quantity) 
-            VALUES ($1, $2, $3) 
-            ON CONFLICT (user_id, product_id) 
-            DO UPDATE SET quantity = cart_items.quantity + $3
-            RETURNING *;
-        `;
+      INSERT INTO cart_items (user_id, product_id, quantity) 
+      VALUES ($1, $2, $3) 
+      ON CONFLICT (user_id, product_id) 
+      DO UPDATE SET quantity = cart_items.quantity + $3
+      RETURNING *;
+    `;
     const result = await client.query(addCartSQL, [
       userId,
       productId,
@@ -31,9 +27,6 @@ router.post("/add", authenticateToken, async (req, res) => {
   }
 });
 
-/**
- * Get all cart items for a user
- */
 router.get("/", authenticateToken, async (req, res) => {
   const userId = req.user.user_id;
 
@@ -47,9 +40,6 @@ router.get("/", authenticateToken, async (req, res) => {
   }
 });
 
-/**
- * Remove a product from the cart
- */
 router.delete("/remove", authenticateToken, async (req, res) => {
   const { productId } = req.body;
   const userId = req.user.user_id;

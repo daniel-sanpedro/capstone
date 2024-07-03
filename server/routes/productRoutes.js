@@ -17,7 +17,7 @@ const getAllProducts = async () => {
 const getProductById = async (product_id) => {
   const res = await client.query(
     "SELECT * FROM products WHERE product_id = $1",
-    [parseInt(product_id)] // Make sure product_id is treated as an integer
+    [parseInt(product_id)]
   );
   return res.rows[0];
 };

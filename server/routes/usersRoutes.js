@@ -8,13 +8,11 @@ const {
   verifyAdmin,
 } = require("../middleware/authMiddleware");
 
-// Enhanced error handling and potentially expanded validation
 const getAllUsers = async () => {
   const result = await client.query("SELECT * FROM users");
   return result.rows;
 };
 
-// More error handling or validation could be added here
 const getUserById = async (user_id) => {
   const result = await client.query("SELECT * FROM users WHERE user_id = $1", [
     user_id,

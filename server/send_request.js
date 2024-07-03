@@ -2,7 +2,7 @@ const axios = require("axios");
 
 axios
   .post(
-    "http://localhost:3000",
+    "https://capstone-7etx.onrender.com",
     {
       test: "value",
     },
