@@ -8,9 +8,8 @@ const Cart = ({ cart, setCart }) => {
   };
 
   const handleCheckout = () => {
-    // Here you can add logic to handle actual payment processes
     alert("Checkout successful. Thank you for your purchase!");
-    // Clear the cart after checkout
+
     localStorage.removeItem("cart");
     setCart([]);
   };
@@ -27,7 +26,6 @@ const Cart = ({ cart, setCart }) => {
               <li key={item.product_id}>
                 <div>{item.name}</div>
                 <div>Quantity: {item.quantity || 1}</div>{" "}
-                {/* Handle quantity display */}
                 <div>Price: ${item.price}</div>
                 <button onClick={() => handleRemoveItem(item.product_id)}>
                   Remove

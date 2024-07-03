@@ -4,7 +4,12 @@ body {
   color: #212121;
   font-family: "Minecraft", sans-serif;
   margin: 0;
-  padding-top: 50px; /* Padding to prevent overlap with fixed navbar */
+  padding-top: 50px;
+}
+
+.banner {
+  width: 100%;
+  height: auto;
 }
 
 /* Root Container Styles */
@@ -44,7 +49,7 @@ body {
   text-decoration: none;
   font-size: 17px;
   box-sizing: border-box;
-  font-weight: bold; /* Makes text bold on hover */
+  font-weight: bold;
 }
 
 .navbar a:hover {
@@ -73,7 +78,7 @@ h6 {
 /* Grid System for Products */
 .products-container {
   display: grid;
-  gap: 40px; /* Increased gap for more space */
+  gap: 40px;
   padding: 20px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
@@ -82,7 +87,7 @@ h6 {
 .product-card {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Aligns everything to the bottom */
+  justify-content: flex-end;
   border: 2px solid #ccc;
   padding: 10px;
   border-radius: 8px;
@@ -90,23 +95,23 @@ h6 {
   background-color: white;
   margin-top: 20px;
   margin-bottom: 20px;
-  height: 100%; /* Ensure the card stretches to full available height */
+  height: 100%;
 }
 
 .product-image {
-  width: 100%; /* Full width of the card */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 10px; /* Space between the image and the next element */
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
 .product-details {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Ensures text content is also bottom-aligned */
+  justify-content: flex-end;
 }
 
 .add-to-cart-btn {
-  margin-top: 10px; /* Ensure there's some space above the button */
+  margin-top: 10px;
 }
 
 /* Media Queries for Responsive Grid Columns */

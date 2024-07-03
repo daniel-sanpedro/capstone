@@ -79,6 +79,11 @@ function App() {
 
   return (
     <div className="App">
+      <img
+        src="https://scontent.fsan1-1.fna.fbcdn.net/v/t39.30808-6/243150945_1443577609376399_5648328371181945828_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=mHzBG0ZJF_UQ7kNvgHkv7W6&_nc_ht=scontent.fsan1-1.fna&gid=A3DCOVp-07ghajRAMFlYcqt&oh=00_AYDasosQLMpsPApdHzT8hz6pSwdN932VXzKtdGm6OfSJnQ&oe=668B86C2"
+        alt="Whiskey Haven"
+        className="banner"
+      />
       <nav className="navbar">
         <div className="navbar-left">
           <Link to="/">Home</Link>
