@@ -19,6 +19,37 @@ function App() {
     fetchProducts();
     const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(storedCart);
+
+    // Send request to test backend
+    const sendRequest = async () => {
+      try {
+        const response = await axios.post(
+          "/auth/signup",
+          {
+            username: "testuser",
+            email: "testuser@example.com",
+            password: "testpassword",
+            full_name: "Test User",
+            address: "123 Test Street",
+            phone_number: "123-456-7890",
+            is_admin: false,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    };
+
+    sendRequest();
   }, []);
 
   const fetchProducts = async () => {

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const client = require("../client");
-const generateToken = require("../generateToken");
+const { generateToken } = require("../generateToken"); // Update this line
 const { signupUser, updateUserToAdmin } = require("../utils/userUtils");
 const {
   authenticateToken,
@@ -10,6 +10,7 @@ const {
 } = require("../middleware/authMiddleware");
 
 router.post("/signup", async (req, res, next) => {
+  console.log("Request Headers:", req.headers);
   console.log("Request Body:", req.body);
   const {
     username,
