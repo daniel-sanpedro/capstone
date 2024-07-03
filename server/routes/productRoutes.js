@@ -2,10 +2,23 @@ const express = require("express");
 const router = express.Router();
 const client = require("../client");
 
-const getAllProducts = async () => {
+const getAllProducts = async (sortBy = "product_id", order = "asc") => {
   try {
     console.log("Executing query to fetch all products...");
-    const res = await client.query("SELECT * FROM products");
+    const validSortColumns = ["name", "price", "product_id"];
+    const validOrderValues = ["asc", "desc"];
+
+    if (!validSortColumns.includes(sortBy)) {
+      sortBy = "product_id";
+    }
+
+    if (!validOrderValues.includes(order)) {
+      order = "asc";
+    }
+
+    const res = await client.query(
+      `SELECT * FROM products ORDER BY ${sortBy} ${order}`
+    );
     console.log("Query executed successfully. Products found:", res.rows);
     return res.rows;
   } catch (err) {
@@ -54,9 +67,11 @@ const deleteProduct = async (product_id) => {
 };
 
 router.get("/", async (req, res, next) => {
+  const { sortBy, order } = req.query;
+
   try {
     console.log("Received request to fetch all products.");
-    const products = await getAllProducts();
+    const products = await getAllProducts(sortBy, order);
     console.log("Products retrieved in API route /api/products:", products);
     res.json(products);
   } catch (error) {

@@ -114,6 +114,20 @@ h6 {
   margin-top: 10px;
 }
 
+.sort-options {
+  margin: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sort-options label {
+  margin-right: 10px;
+}
+
+.sort-options select {
+  margin-right: 10px;
+}
+
 /* Media Queries for Responsive Grid Columns */
 @media (max-width: 599px) {
   .products-container {

@@ -6,16 +6,18 @@ const ProductList = ({ addToCart }) => {
   const [error, setError] = useState(null);
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [sortBy, setSortBy] = useState("product_id");
+  const [order, setOrder] = useState("asc");
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProducts(sortBy, order);
+  }, [sortBy, order]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (sortBy = "product_id", order = "asc") => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://capstone-7etx.onrender.com/api/products"
+        `https://capstone-7etx.onrender.com/api/products?sortBy=${sortBy}&order=${order}`
       );
       setProducts(response.data);
     } catch (error) {
@@ -44,6 +46,18 @@ const ProductList = ({ addToCart }) => {
   return (
     <div className="product-list">
       <h2>Product List</h2>
+      <div className="sort-options">
+        <label>Sort By: </label>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="product_id">Default</option>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+        </select>
+        <select value={order} onChange={(e) => setOrder(e.target.value)}>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
       {loading && <p>Loading products...</p>}
       {error && <p className="error-message">{error}</p>}
       <div className="products-container">
@@ -86,4 +100,5 @@ const ProductList = ({ addToCart }) => {
     </div>
   );
 };
+
 export default ProductList;
