@@ -13,7 +13,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
-  axios.defaults.baseURL = "http://localhost:3000/api";
+  axios.defaults.baseURL = "https://capstone-7etx.onrender.com/api";
 
   useEffect(() => {
     fetchProducts();

@@ -25,7 +25,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "https://capstone-7etx.onrender.com/api/auth/signup",
         formData
       );
       setSuccess(true);
